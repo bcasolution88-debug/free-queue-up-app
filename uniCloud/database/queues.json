@@ -1,0 +1,56 @@
+{
+  "bsonType": "object",
+  "required": ["shop_id", "queue_type"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "shop_id": {
+      "bsonType": "objectId",
+      "description": "商家 ID"
+    },
+    "queue_type": {
+      "enum": ["online", "instore"],
+      "description": "队列类型"
+    },
+    "queue_list": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "order_id": {
+            "bsonType": "objectId"
+          },
+          "queue_no": {
+            "bsonType": "string"
+          },
+          "user_id": {
+            "bsonType": "objectId"
+          },
+          "status": {
+            "enum": ["waiting", "called", "completed", "cancelled"]
+          },
+          "created_at": {
+            "bsonType": "date"
+          }
+        }
+      },
+      "description": "队列列表"
+    },
+    "current_calling_no": {
+      "bsonType": "string",
+      "description": "当前叫号"
+    },
+    "estimated_wait_time_per_person": {
+      "bsonType": "int",
+      "description": "预估单人等待时间(分钟)"
+    },
+    "total_queue_count": {
+      "bsonType": "int",
+      "description": "总排队人数"
+    },
+    "updated_at": {
+      "bsonType": "date"
+    }
+  }
+}

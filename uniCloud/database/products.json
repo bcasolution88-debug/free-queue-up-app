@@ -1,0 +1,51 @@
+{
+  "bsonType": "object",
+  "required": ["shop_id", "name", "price"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "shop_id": {
+      "bsonType": "objectId",
+      "description": "关联商家 ID"
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "产品名称"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "产品描述"
+    },
+    "price": {
+      "bsonType": "double",
+      "description": "产品价格"
+    },
+    "image": {
+      "bsonType": "string",
+      "description": "产品图片 URL"
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "产品分类"
+    },
+    "inventory": {
+      "bsonType": "int",
+      "description": "库存数量"
+    },
+    "max_daily_orders": {
+      "bsonType": "int",
+      "description": "每日最大订单数"
+    },
+    "status": {
+      "enum": ["available", "unavailable", "discontinued"],
+      "description": "产品状态"
+    },
+    "created_at": {
+      "bsonType": "date"
+    },
+    "updated_at": {
+      "bsonType": "date"
+    }
+  }
+}

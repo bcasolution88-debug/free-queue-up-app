@@ -1,0 +1,154 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "QueueGo",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/login",
+      "style": {
+        "navigationBarTitleText": "登录/注册",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shop/detail",
+      "style": {
+        "navigationBarTitleText": "商家详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/create",
+      "style": {
+        "navigationBarTitleText": "确认订单",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/payment",
+      "style": {
+        "navigationBarTitleText": "支付",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/success",
+      "style": {
+        "navigationBarTitleText": "支付成功",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/queue/status",
+      "style": {
+        "navigationBarTitleText": "排队状态",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/orders",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/refund",
+      "style": {
+        "navigationBarTitleText": "申请退款",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shop-admin/orders",
+      "style": {
+        "navigationBarTitleText": "商家端-订单管理",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shop-admin/queue",
+      "style": {
+        "navigationBarTitleText": "商家端-排队管理",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shop-admin/notify",
+      "style": {
+        "navigationBarTitleText": "商家端-通知用户",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/admin/shops",
+      "style": {
+        "navigationBarTitleText": "平台管理-商家管理",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/admin/products",
+      "style": {
+        "navigationBarTitleText": "平台管理-产品管理",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/admin/statistics",
+      "style": {
+        "navigationBarTitleText": "平台管理-数据统计",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "QueueGo",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#BBBBBB",
+    "selectedColor": "#FF4D4F",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/tab_home.png",
+        "selectedIconPath": "static/images/tab_home_active.png"
+      },
+      {
+        "pagePath": "pages/user/orders",
+        "text": "订单",
+        "iconPath": "static/images/tab_orders.png",
+        "selectedIconPath": "static/images/tab_orders_active.png"
+      },
+      {
+        "pagePath": "pages/queue/status",
+        "text": "排队",
+        "iconPath": "static/images/tab_queue.png",
+        "selectedIconPath": "static/images/tab_queue_active.png"
+      },
+      {
+        "pagePath": "pages/user/profile",
+        "text": "我的",
+        "iconPath": "static/images/tab_profile.png",
+        "selectedIconPath": "static/images/tab_profile_active.png"
+      }
+    ]
+  }
+}

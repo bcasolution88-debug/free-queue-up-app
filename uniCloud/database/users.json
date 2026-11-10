@@ -1,0 +1,41 @@
+{
+  "bsonType": "object",
+  "required": ["openid", "nickname"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "openid": {
+      "bsonType": "string",
+      "description": "微信/支付宝 openid"
+    },
+    "nickname": {
+      "bsonType": "string",
+      "description": "用户昵称"
+    },
+    "avatar": {
+      "bsonType": "string",
+      "description": "用户头像 URL"
+    },
+    "phone": {
+      "bsonType": "string",
+      "description": "用户电话"
+    },
+    "role": {
+      "enum": ["user", "shop_admin", "super_admin"],
+      "description": "用户角色"
+    },
+    "lang_preference": {
+      "enum": ["zh", "en"],
+      "description": "语言偏好"
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "创建时间"
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "更新时间"
+    }
+  }
+}

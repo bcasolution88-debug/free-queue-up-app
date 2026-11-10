@@ -1,0 +1,88 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "shop_id", "items", "total_amount"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "user_id": {
+      "bsonType": "objectId",
+      "description": "用户 ID"
+    },
+    "shop_id": {
+      "bsonType": "objectId",
+      "description": "商家 ID"
+    },
+    "items": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "product_id": {
+            "bsonType": "objectId"
+          },
+          "name": {
+            "bsonType": "string"
+          },
+          "price": {
+            "bsonType": "double"
+          },
+          "quantity": {
+            "bsonType": "int"
+          }
+        }
+      },
+      "description": "订单项目列表"
+    },
+    "total_amount": {
+      "bsonType": "double",
+      "description": "总金额"
+    },
+    "status": {
+      "enum": ["pending", "paid", "ready", "completed", "cancelled", "refunded"],
+      "description": "订单状态"
+    },
+    "pickup_time": {
+      "bsonType": "string",
+      "description": "预约领取时间"
+    },
+    "queue_no": {
+      "bsonType": "string",
+      "description": "排队号码"
+    },
+    "queue_type": {
+      "enum": ["online", "instore"],
+      "description": "排队类型"
+    },
+    "payment_id": {
+      "bsonType": "string",
+      "description": "支付 ID"
+    },
+    "payment_method": {
+      "enum": ["wechat", "alipay", "card"],
+      "description": "支付方式"
+    },
+    "refund_reason": {
+      "bsonType": "string",
+      "description": "退款原因"
+    },
+    "refund_amount": {
+      "bsonType": "double",
+      "description": "退款金额"
+    },
+    "notes": {
+      "bsonType": "string",
+      "description": "备注"
+    },
+    "created_at": {
+      "bsonType": "date"
+    },
+    "updated_at": {
+      "bsonType": "date"
+    },
+    "completed_at": {
+      "bsonType": "date",
+      "description": "完成时间"
+    }
+  }
+}

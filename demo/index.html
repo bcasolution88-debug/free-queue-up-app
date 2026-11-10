@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QueueGo - 线上排队取号平台</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+  /* ===== 登录页 ===== */
+  .login-page { background: var(--bg-page); }
+  .login-hero {
+    background: linear-gradient(160deg, #FF4D4F 0%, #FF7875 60%, #FFA39E 100%);
+    padding: 60px 24px 40px;
+    text-align: center;
+  }
+  .login-logo { font-size: 56px; display: block; margin-bottom: 12px; }
+  .login-brand { font-size: 28px; font-weight: 900; color: #fff; display: block; margin-bottom: 6px; }
+  .login-slogan { font-size: 14px; color: rgba(255,255,255,0.85); display: block; }
+  .login-form-wrap { padding: 28px 20px; }
+  .lang-switch-row { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+  .lang-toggle {
+    display: flex;
+    background: var(--bg-input);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-input);
+  }
+  .lang-opt {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-hint);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-opt.active { background: var(--primary); color: #fff; border-radius: 8px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .form-input {
+    width: 100%;
+    height: 46px;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-input);
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 15px;
+    color: var(--text-primary);
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--primary); }
+  .login-btn {
+    width: 100%;
+    height: 50px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+    transition: opacity 0.2s;
+  }
+  .login-btn:active { opacity: 0.85; }
+  .divider-row { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider-line { flex: 1; height: 1px; background: var(--divider); }
+  .divider-text { font-size: 12px; color: var(--text-hint); }
+  .social-btns { display: flex; gap: 12px; }
+  .social-btn {
+    flex: 1;
+    height: 46px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-input);
+    background: var(--bg-input);
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--primary); }
+  .register-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-hint); }
+  .register-link span { color: var(--primary); font-weight: 600; cursor: pointer; }
+  .demo-role-btns { display: flex; gap: 8px; margin-top: 16px; }
+  .role-btn {
+    flex: 1;
+    height: 38px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-input);
+    background: var(--bg-input);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .role-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* ===== 首页 ===== */
+  .home-header {
+    padding: 14px 16px 12px;
+    background: var(--navbar-bg);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+  }
+  .home-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .home-greeting { font-size: 22px; font-weight: 900; color: var(--text-primary); }
+  .home-subtitle { font-size: 13px; color: var(--text-hint); }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .header-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bg-input);
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .header-btn:hover { background: var(--primary-bg); }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-input);
+    border-radius: 12px;
+    padding: 0 14px;
+    height: 40px;
+    border: 1.5px solid var(--border-input);
+  }
+  .search-icon { font-size: 16px; color: var(--text-hint); }
+  .search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-family: inherit;
+  }
+  .banner-section { padding: 12px 16px 0; }
+  .banner-card {
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .banner-text { font-size: 16px; font-weight: 700; color: #fff; }
+  .banner-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+  .banner-icon { font-size: 36px; }
+  .category-section { padding: 16px 16px 0; }
+  .category-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+  .category-row::-webkit-scrollbar { display: none; }
+  .category-item {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: background 0.2s;
+  }
+  .category-item:hover { background: var(--primary-bg); }
+  .category-item.active { background: var(--primary-bg); }
+  .cat-icon { font-size: 28px; }
+  .cat-name { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .shop-list-section { padding: 16px 16px 0; }
+  .shop-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .shop-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .shop-banner {
+    height: 120px;
+    background: linear-gradient(135deg, #FF4D4F, #FF7875);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    position: relative;
+  }
+  .shop-status-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.9);
+  }
+  .shop-status-tag.open { color: #52C41A; }
+  .shop-status-tag.closed { color: #999; }
+  .shop-info { padding: 12px 14px; }
+  .shop-name-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .shop-name { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .shop-rating { font-size: 13px; font-weight: 600; color: #FAAD14; }
+  .shop-meta { display: flex; gap: 10px; margin-bottom: 10px; }
+  .shop-meta-item { font-size: 11px; color: var(--text-hint); }
+  .shop-queue-row { display: flex; gap: 8px; }
+  .queue-info-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .queue-info-chip.online { background: var(--success-bg); color: var(--success); }
+  .queue-info-chip.instore { background: var(--info-bg); color: var(--info); }
+  .queue-info-chip.wait { background: var(--warning-bg); color: var(--warning); }
+
+  /* ===== 商家详情页 ===== */
+  .shop-detail-banner {
+    height: 200px;
+    background: linear-gradient(135deg, #FF4D4F, #FF7875);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .shop-detail-info { padding: 16px; background: var(--bg-card); flex-shrink: 0; }
+  .shop-detail-name { font-size: 22px; font-weight: 900; color: var(--text-primary); display: block; margin-bottom: 6px; }
+  .shop-detail-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .meta-item { font-size: 12px; color: var(--text-hint); display: flex; align-items: center; gap: 4px; }
+  .shop-queue-stats {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .qstat {
+    flex: 1;
+    text-align: center;
+    padding: 10px 6px;
+    border-radius: 10px;
+  }
+  .qstat.online { background: var(--success-bg); }
+  .qstat.instore { background: var(--info-bg); }
+  .qstat.wait { background: var(--warning-bg); }
+  .qstat-val { display: block; font-size: 20px; font-weight: 800; margin-bottom: 3px; }
+  .qstat.online .qstat-val { color: var(--success); }
+  .qstat.instore .qstat-val { color: var(--info); }
+  .qstat.wait .qstat-val { color: var(--warning); }
+  .qstat-lbl { display: block; font-size: 10px; color: var(--text-hint); }
+  .product-category-tabs {
+    display: flex;
+    padding: 0 16px;
+    gap: 8px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  .product-category-tabs::-webkit-scrollbar { display: none; }
+  .prod-cat-tab {
+    flex-shrink: 0;
+    padding: 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-hint);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    margin-right: 16px;
+  }
+  .prod-cat-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .product-list { padding: 12px 16px; }
+  .product-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  .product-item:last-child { border-bottom: none; }
+  .product-img { font-size: 40px; flex-shrink: 0; }
+  .product-info { flex: 1; }
+  .product-name { display: block; font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+  .product-desc { display: block; font-size: 12px; color: var(--text-hint); margin-bottom: 6px; }
+  .product-price { font-size: 17px; font-weight: 800; color: var(--primary); }
+  .qty-control { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-input);
+    background: var(--bg-input);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .qty-btn.add { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .qty-num { font-size: 15px; font-weight: 700; color: var(--text-primary); min-width: 20px; text-align: center; }
+  .cart-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .cart-icon-wrap { position: relative; cursor: pointer; }
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cart-total { flex: 1; font-size: 18px; font-weight: 800; color: var(--primary); }
+  .order-btn {
+    height: 44px;
+    padding: 0 24px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ===== 排队状态页 ===== */
+  .queue-hero {
+    margin: 12px 16px;
+    border-radius: 16px;
+    padding: 20px;
+    flex-shrink: 0;
+  }
+  .queue-hero-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .queue-shop-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .queue-status-chip {
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .queue-number-display { text-align: center; margin-bottom: 18px; }
+  .queue-number-label { display: block; font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+  .queue-number { display: block; font-size: 58px; font-weight: 900; color: #fff; letter-spacing: 4px; margin-bottom: 10px; }
+  .queue-type-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .queue-wait-row {
+    display: flex;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px 0;
+  }
+  .wait-item { flex: 1; text-align: center; }
+  .wait-val { display: block; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .wait-lbl { display: block; font-size: 11px; color: rgba(255,255,255,0.8); }
+  .wait-divider { width: 1px; background: rgba(255,255,255,0.3); margin: 4px 0; }
+  .dual-queue-tabs {
+    display: flex;
+    margin: 0 16px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+  }
+  .dual-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-hint);
+    cursor: pointer;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .dual-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab-count-badge {
+    background: var(--bg-input);
+    color: var(--text-hint);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+  .dual-tab.active .tab-count-badge { background: var(--primary-bg); color: var(--primary); }
+  .queue-list-wrap { padding: 0 16px; }
+  .queue-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  .queue-list-item:last-child { border-bottom: none; }
+  .queue-list-item.mine { background: var(--primary-bg); margin: 0 -16px; padding: 11px 16px; border-radius: 8px; }
+  .q-rank {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--bg-input);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    color: var(--text-hint);
+    flex-shrink: 0;
+  }
+  .q-no { font-size: 16px; font-weight: 700; color: var(--text-primary); flex: 1; }
+  .q-no .me-tag {
+    font-size: 10px;
+    background: var(--primary);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-left: 6px;
+    font-weight: 700;
+  }
+  .q-status {
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .q-status.waiting { background: var(--warning-bg); color: var(--warning); }
+  .q-status.called { background: var(--success-bg); color: var(--success); }
+  .q-time { font-size: 11px; color: var(--text-hint); min-width: 38px; text-align: right; }
+
+  /* ===== 商家端 ===== */
+  .merchant-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .merchant-brand { font-size: 18px; font-weight: 800; color: #fff; display: block; }
+  .merchant-sub { font-size: 12px; color: rgba(255,255,255,0.8); display: block; }
+  .merchant-tabs {
+    display: flex;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .merchant-tab {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 10px 0;
+    cursor: pointer;
+    color: var(--text-hint);
+    border-bottom: 2px solid transparent;
+    font-size: 11px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .merchant-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .m-tab-icon { font-size: 18px; }
+  .merchant-stats {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .m-stat {
+    flex: 1;
+    text-align: center;
+    background: var(--bg-input);
+    border-radius: 10px;
+    padding: 10px 4px;
+  }
+  .m-stat-val { display: block; font-size: 17px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+  .m-stat-lbl { display: block; font-size: 10px; color: var(--text-hint); }
+  .order-card-merchant {
+    background: var(--bg-card);
+    border-radius: 12px;
+    margin: 10px 16px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .morder-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .customer-row { display: flex; align-items: center; gap: 10px; }
+  .cust-avatar { font-size: 28px; }
+  .cust-name { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .cust-time { display: block; font-size: 11px; color: var(--text-hint); }
+  .morder-status {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .morder-status.paid { background: var(--warning-bg); color: var(--warning); }
+  .morder-status.preparing { background: var(--info-bg); color: var(--info); }
+  .morder-status.ready { background: var(--primary-bg); color: var(--primary); }
+  .morder-status.completed { background: var(--success-bg); color: var(--success); }
+  .morder-items { display: flex; gap: 12px; padding: 10px 14px; flex-wrap: wrap; }
+  .morder-item { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--text-secondary); }
+  .morder-queue-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px 10px;
+  }
+  .mqueue-badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .mqueue-badge.online { background: var(--success-bg); color: var(--success); }
+  .mqueue-badge.instore { background: var(--info-bg); color: var(--info); }
+  .morder-actions {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--divider);
+  }
+  .maction-btn {
+    flex: 1;
+    height: 36px;
+    border-radius: 18px;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+  }
+  .maction-btn:active { opacity: 0.8; }
+  .maction-btn.primary { background: var(--primary); color: #fff; }
+  .maction-btn.success { background: var(--success); color: #fff; }
+  .maction-btn.info { background: var(--info); color: #fff; }
+  .maction-btn.ghost { background: var(--bg-input); color: var(--text-secondary); border: 1px solid var(--border-input); }
+
+  /* ===== 管理员后台 ===== */
+  .admin-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+  }
+  .admin-brand-row { display: flex; align-items: center; gap: 10px; }
+  .admin-brand-icon { font-size: 24px; }
+  .admin-brand-title { display: block; font-size: 16px; font-weight: 800; color: #fff; }
+  .admin-brand-sub { display: block; font-size: 11px; color: rgba(255,255,255,0.6); }
+  .admin-tabs {
+    display: flex;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .admin-tab {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 10px 0;
+    cursor: pointer;
+    color: var(--text-hint);
+    border-bottom: 2px solid transparent;
+    font-size: 11px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .admin-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .platform-stats {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .pstat {
+    flex: 1;
+    text-align: center;
+    background: var(--bg-input);
+    border-radius: 10px;
+    padding: 10px 4px;
+  }
+  .pstat-val { display: block; font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+  .pstat-lbl { display: block; font-size: 10px; color: var(--text-hint); }
+  .search-add-bar {
+    display: flex;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--divider);
+    flex-shrink: 0;
+  }
+  .search-box-sm {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-input);
+    border-radius: 10px;
+    padding: 0 12px;
+    height: 38px;
+    border: 1.5px solid var(--border-input);
+  }
+  .search-input-sm {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    color: var(--text-primary);
+    font-family: inherit;
+  }
+  .add-btn-sm {
+    height: 38px;
+    padding: 0 14px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .shop-admin-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    margin: 10px 16px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .shop-admin-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 14px 10px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .shop-admin-emoji { font-size: 32px; }
+  .shop-admin-name { display: block; font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+  .shop-admin-cat { display: block; font-size: 11px; color: var(--text-hint); }
+  .shop-admin-status {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .shop-admin-status.active { background: var(--success-bg); color: var(--success); }
+  .shop-admin-status.suspended { background: var(--error-bg); color: var(--error); }
+  .shop-admin-stats { display: flex; padding: 10px 14px; border-bottom: 1px solid var(--divider); }
+  .sas-item { flex: 1; text-align: center; }
+  .sas-val { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+  .sas-lbl { display: block; font-size: 10px; color: var(--text-hint); }
+  .shop-admin-actions { display: flex; gap: 8px; padding: 10px 14px 14px; }
+  .sa-btn {
+    flex: 1;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .sa-btn.view { background: var(--bg-input); color: var(--text-secondary); }
+  .sa-btn.edit { background: var(--info-bg); color: var(--info); }
+  .sa-btn.suspend { background: var(--warning-bg); color: var(--warning); }
+  .sa-btn.delete { background: var(--error-bg); color: var(--error); }
+
+  /* ===== 统计图表 ===== */
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px; }
+  .kpi-card {
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .kpi-card.c1 { background: linear-gradient(135deg, #FF4D4F, #FF7875); }
+  .kpi-card.c2 { background: linear-gradient(135deg, #52C41A, #95DE64); }
+  .kpi-card.c3 { background: linear-gradient(135deg, #1890FF, #69C0FF); }
+  .kpi-card.c4 { background: linear-gradient(135deg, #FAAD14, #FFD666); }
+  .kpi-icon { font-size: 20px; }
+  .kpi-val { font-size: 20px; font-weight: 800; color: #fff; }
+  .kpi-lbl { font-size: 11px; color: rgba(255,255,255,0.8); }
+  .kpi-change { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .chart-card { margin: 0 16px 12px; padding: 16px; background: var(--bg-card); border-radius: 14px; box-shadow: var(--shadow-sm); }
+  .chart-title { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; }
+  .bar-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; background: var(--bg-input); border-radius: 5px; overflow: hidden; }
+  .bar-fill { width: 100%; background: linear-gradient(to top, #FF4D4F, #FF7875); border-radius: 5px; transition: height 0.5s; }
+  .bar-lbl { font-size: 9px; color: var(--text-hint); }
+  .rank-list { display: flex; flex-direction: column; gap: 8px; }
+  .rank-row { display: flex; align-items: center; gap: 10px; }
+  .rank-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .rank-num.r1 { background: #FFD700; color: #8B6914; }
+  .rank-num.r2 { background: #C0C0C0; color: #666; }
+  .rank-num.r3 { background: #CD7F32; color: #fff; }
+  .rank-num.r4 { background: var(--bg-input); color: var(--text-hint); }
+  .rank-emoji { font-size: 18px; }
+  .rank-info { flex: 1; }
+  .rank-name { display: block; font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+  .rank-bar-bg { height: 5px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+  .rank-bar-fg { height: 100%; background: var(--primary); border-radius: 3px; }
+  .rank-rev { font-size: 12px; font-weight: 700; color: var(--primary); }
+
+  /* ===== 个人中心 ===== */
+  .profile-hero {
+    padding: 28px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .profile-avatar { font-size: 56px; width: 72px; height: 72px; background: rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid rgba(255,255,255,0.6); }
+  .profile-name { font-size: 20px; font-weight: 800; color: #fff; }
+  .profile-phone { font-size: 13px; color: rgba(255,255,255,0.8); }
+  .profile-role-badge { background: rgba(255,255,255,0.25); padding: 4px 14px; border-radius: 12px; font-size: 12px; color: #fff; font-weight: 600; }
+  .profile-stats {
+    display: flex;
+    background: var(--bg-card);
+    margin: 0 16px;
+    border-radius: 14px;
+    padding: 16px 0;
+    margin-top: -14px;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+  .ps-item { flex: 1; text-align: center; }
+  .ps-val { display: block; font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+  .ps-lbl { display: block; font-size: 11px; color: var(--text-hint); }
+  .ps-divider { width: 1px; background: var(--divider); margin: 4px 0; }
+  .menu-section { padding: 16px 16px 0; display: flex; flex-direction: column; gap: 12px; }
+  .menu-group { background: var(--bg-card); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .menu-item:active { background: var(--bg-input); }
+  .menu-icon { font-size: 20px; }
+  .menu-label { flex: 1; font-size: 14px; color: var(--text-primary); font-weight: 500; }
+  .menu-arrow { font-size: 18px; color: var(--text-hint); }
+  .menu-divider { height: 1px; background: var(--divider); margin: 0 16px; }
+  .theme-toggle-row { display: flex; gap: 6px; }
+  .theme-opt {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-hint);
+    background: var(--bg-input);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .theme-opt.active { background: var(--primary-bg); color: var(--primary); }
+  .logout-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--error-bg);
+    color: var(--error);
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ===== 支付成功页 ===== */
+  .success-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+    overflow-y: auto;
+  }
+  .success-icon-wrap { position: relative; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; }
+  .success-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--success);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2; position: relative;
+  }
+  .check-icon { font-size: 36px; color: #fff; font-weight: 700; }
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(82,196,26,0.2);
+    animation: ripple 2s ease-out infinite;
+  }
+  .ripple-1 { width: 90px; height: 90px; }
+  .ripple-2 { width: 100px; height: 100px; animation-delay: 0.5s; }
+  @keyframes ripple { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
+  .success-title { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+  .success-subtitle { font-size: 14px; color: var(--text-hint); }
+  .queue-number-card {
+    width: 100%;
+    background: linear-gradient(135deg, #FF4D4F, #FF7875);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+  .qn-label { display: block; font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+  .qn-number { display: block; font-size: 52px; font-weight: 900; color: #fff; letter-spacing: 4px; margin-bottom: 12px; }
+  .qn-type { display: inline-block; background: rgba(255,255,255,0.25); padding: 5px 16px; border-radius: 12px; font-size: 12px; color: #fff; font-weight: 600; }
+  .order-info-card {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .oi-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--divider); }
+  .oi-row:last-child { border-bottom: none; }
+  .oi-label { font-size: 13px; color: var(--text-hint); }
+  .oi-value { font-size: 13px; color: var(--text-primary); font-weight: 600; }
+  .oi-value.primary { color: var(--primary); font-size: 16px; }
+  .wait-notice {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--info-bg);
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+  .wn-icon { font-size: 18px; flex-shrink: 0; }
+  .wn-text { font-size: 12px; color: var(--info); line-height: 1.5; }
+  .success-btns { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+  .success-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .success-btn.primary { background: var(--primary); color: #fff; }
+  .success-btn.outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+  </style>
+</head>
+<body>
+  <!-- 控制面板 -->
+  <div class="control-panel" id="controlPanel">
+    <span class="control-title">🎮 QueueGo 演示控制台</span>
+    
+    <div class="control-group">
+      <span class="control-label">🌐 语言 / Language</span>
+      <div class="control-btn-row">
+        <button class="ctrl-btn active" id="btnZh" onclick="setLang('zh')">中文</button>
+        <button class="ctrl-btn" id="btnEn" onclick="setLang('en')">English</button>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <span class="control-label">🎨 主题 / Theme</span>
+      <div class="control-btn-row">
+        <button class="ctrl-btn active" id="btnLight" onclick="setTheme('light')">☀️ 白天</button>
+        <button class="ctrl-btn" id="btnDark" onclick="setTheme('dark')">🌙 夜间</button>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <span class="control-label">📱 用户端页面</span>
+      <div class="page-nav-btns">
+        <button class="page-btn" onclick="showPage('login')">登录</button>
+        <button class="page-btn" onclick="showPage('home')">首页</button>
+        <button class="page-btn" onclick="showPage('shop-detail')">商家详情</button>
+        <button class="page-btn" onclick="showPage('queue-status')">排队状态</button>
+        <button class="page-btn" onclick="showPage('my-orders')">我的订单</button>
+        <button class="page-btn" onclick="showPage('profile')">个人中心</button>
+        <button class="page-btn" onclick="showPage('pay-success')">支付成功</button>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <span class="control-label">🏪 商家端页面</span>
+      <div class="page-nav-btns">
+        <button class="page-btn" onclick="showPage('merchant-orders')">订单管理</button>
+        <button class="page-btn" onclick="showPage('merchant-queue')">排队管理</button>
+        <button class="page-btn" onclick="showPage('merchant-notify')">通知用户</button>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <span class="control-label">👑 管理员后台</span>
+      <div class="page-nav-btns">
+        <button class="page-btn" onclick="showPage('admin-shops')">商家管理</button>
+        <button class="page-btn" onclick="showPage('admin-products')">产品管理</button>
+        <button class="page-btn" onclick="showPage('admin-stats')">数据统计</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手机框架 -->
+  <div class="phone-frame" id="phoneFrame">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="status-time" id="statusTime">14:30</span>
+      <span class="status-icons">📶 WiFi 🔋</span>
+    </div>
+
+    <!-- ===== 登录页 ===== -->
+    <div class="page active" id="page-login">
+      <div class="login-hero">
+        <span class="login-logo">🎫</span>
+        <span class="login-brand" data-zh="QueueGo" data-en="QueueGo">QueueGo</span>
+        <span class="login-slogan" data-zh="在线排队，免去等待" data-en="Queue Online, Skip the Wait">在线排队，免去等待</span>
+      </div>
+      <div class="login-form-wrap">
+        <div class="lang-switch-row">
+          <div class="lang-toggle">
+            <div class="lang-opt active" id="loginLangZh" onclick="setLang('zh')" data-zh="中文" data-en="中文">中文</div>
+            <div class="lang-opt" id="loginLangEn" onclick="setLang('en')" data-zh="English" data-en="English">English</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-zh="手机号 / 邮箱" data-en="Phone / Email">手机号 / 邮箱</label>
+          <input class="form-input" type="text" placeholder="请输入手机号或邮箱" id="loginPhone">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-zh="密码" data-en="Password">密码</label>
+          <input class="form-input" type="password" placeholder="请输入密码" id="loginPwd">
+        </div>
+        <button class="login-btn" onclick="doLogin()" data-zh="登录" data-en="Login">登录</button>
+        <div class="divider-row">
+          <div class="divider-line"></div>
+          <span class="divider-text" data-zh="或使用以下方式登录" data-en="Or sign in with">或使用以下方式登录</span>
+          <div class="divider-line"></div>
+        </div>
+        <div class="social-btns">
+          <div class="social-btn" onclick="alert('微信登录')">💬</div>
+          <div class="social-btn" onclick="alert('支付宝登录')">💙</div>
+          <div class="social-btn" onclick="alert('Google登录')">🌐</div>
+        </div>
+        <div class="register-link">
+          <span data-zh="还没有账号？" data-en="No account? ">还没有账号？</span>
+          <span onclick="alert('注册功能')" data-zh="立即注册" data-en="Sign Up">立即注册</span>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;color:var(--text-hint);margin-bottom:8px;text-align:center;" data-zh="演示账号快速登录：" data-en="Demo Quick Login:">演示账号快速登录：</div>
+          <div class="demo-role-btns">
+            <button class="role-btn" onclick="quickLogin('user')" data-zh="👤 用户端" data-en="👤 User">👤 用户端</button>
+            <button class="role-btn" onclick="quickLogin('shop')" data-zh="🏪 商家端" data-en="🏪 Merchant">🏪 商家端</button>
+            <button class="role-btn" onclick="quickLogin('admin')" data-zh="👑 管理员" data-en="👑 Admin">👑 管理员</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 首页 ===== -->
+    <div class="page" id="page-home">
+      <div class="home-header">
+        <div class="home-header-top">
+          <div>
+            <div class="home-greeting" data-zh="好下午 👋" data-en="Good Afternoon 👋">好下午 👋</div>
+            <div class="home-subtitle" data-zh="在线排队，免去等待" data-en="Queue Online, Skip the Wait">在线排队，免去等待</div>
+          </div>
+          <div class="header-actions">
+            <button class="header-btn" onclick="toggleTheme()" title="切换主题">🌙</button>
+            <button class="header-btn" onclick="toggleLang()" title="切换语言">🌐</button>
+            <button class="header-btn" onclick="showPage('profile')">👤</button>
+          </div>
+        </div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" type="text" data-placeholder-zh="搜索商家、产品..." data-placeholder-en="Search shops, products..." placeholder="搜索商家、产品...">
+        </div>
+      </div>
+      <div class="page-scroll">
+        <div class="banner-section">
+          <div class="banner-card gradient-primary">
+            <div>
+              <div class="banner-text" data-zh="跳过排队，在线下单" data-en="Skip the Line, Order Online">跳过排队，在线下单</div>
+              <div class="banner-sub" data-zh="实时显示排队状态" data-en="Real-time queue status">实时显示排队状态</div>
+            </div>
+            <span class="banner-icon">🎫</span>
+          </div>
+        </div>
+        <div class="category-section">
+          <span class="section-title" data-zh="热门分类" data-en="Categories">热门分类</span>
+          <div class="category-row">
+            <div class="category-item active" onclick="filterCategory('all')"><span class="cat-icon">🍽️</span><span class="cat-name" data-zh="全部" data-en="All">全部</span></div>
+            <div class="category-item" onclick="filterCategory('restaurant')"><span class="cat-icon">🍜</span><span class="cat-name" data-zh="中餐" data-en="Chinese">中餐</span></div>
+            <div class="category-item" onclick="filterCategory('tea')"><span class="cat-icon">🧋</span><span class="cat-name" data-zh="奶茶" data-en="Tea">奶茶</span></div>
+            <div class="category-item" onclick="filterCategory('coffee')"><span class="cat-icon">☕</span><span class="cat-name" data-zh="咖啡" data-en="Coffee">咖啡</span></div>
+            <div class="category-item" onclick="filterCategory('bakery')"><span class="cat-icon">🎂</span><span class="cat-name" data-zh="烘焙" data-en="Bakery">烘焙</span></div>
+            <div class="category-item" onclick="filterCategory('japanese')"><span class="cat-icon">🍣</span><span class="cat-name" data-zh="日料" data-en="Japanese">日料</span></div>
+          </div>
+        </div>
+        <div class="shop-list-section">
+          <span class="section-title" data-zh="附近商家" data-en="Nearby Shops">附近商家</span>
+          <div class="shop-card" onclick="showPage('shop-detail')">
+            <div class="shop-banner" style="background:linear-gradient(135deg,#FF4D4F,#FF7875)"><span>🍜</span><div class="shop-status-tag open" data-zh="营业中" data-en="Open">营业中</div></div>
+            <div class="shop-info">
+              <div class="shop-name-row"><span class="shop-name" data-zh="外婆家" data-en="Waipojia Restaurant">外婆家</span><span class="shop-rating">⭐ 4.8</span></div>
+              <div class="shop-meta"><span class="shop-meta-item" data-zh="杭帮菜" data-en="Hangzhou Cuisine">杭帮菜</span><span class="shop-meta-item">📍 0.3km</span><span class="shop-meta-item">⏰ 10:00-22:00</span></div>
+              <div class="shop-queue-row">
+                <div class="queue-info-chip online"><span>🌐</span><span data-zh="在线排队: 12人" data-en="Online Queue: 12">在线排队: 12人</span></div>
+                <div class="queue-info-chip instore"><span>🏪</span><span data-zh="实体排队: 5人" data-en="In-store: 5">实体排队: 5人</span></div>
+                <div class="queue-info-chip wait"><span>⏰</span><span data-zh="约15分钟" data-en="~15 min">约15分钟</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="shop-card" onclick="showPage('shop-detail')">
+            <div class="shop-banner" style="background:linear-gradient(135deg,#722ED1,#9254DE)"><span>🧋</span><div class="shop-status-tag open" data-zh="营业中" data-en="Open">营业中</div></div>
+            <div class="shop-info">
+              <div class="shop-name-row"><span class="shop-name" data-zh="喜茶" data-en="HEYTEA">喜茶</span><span class="shop-rating">⭐ 4.7</span></div>
+              <div class="shop-meta"><span class="shop-meta-item" data-zh="奶茶" data-en="Milk Tea">奶茶</span><span class="shop-meta-item">📍 0.5km</span><span class="shop-meta-item">⏰ 09:00-22:00</span></div>
+              <div class="shop-queue-row">
+                <div class="queue-info-chip online"><span>🌐</span><span data-zh="在线排队: 8人" data-en="Online Queue: 8">在线排队: 8人</span></div>
+                <div class="queue-info-chip instore"><span>🏪</span><span data-zh="实体排队: 3人" data-en="In-store: 3">实体排队: 3人</span></div>
+                <div class="queue-info-chip wait"><span>⏰</span><span data-zh="约10分钟" data-en="~10 min">约10分钟</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="shop-card" onclick="showPage('shop-detail')">
+            <div class="shop-banner" style="background:linear-gradient(135deg,#006241,#00A862)"><span>☕</span><div class="shop-status-tag open" data-zh="营业中" data-en="Open">营业中</div></div>
+            <div class="shop-info">
+              <div class="shop-name-row"><span class="shop-name" data-zh="星巴克" data-en="Starbucks">星巴克</span><span class="shop-rating">⭐ 4.6</span></div>
+              <div class="shop-meta"><span class="shop-meta-item" data-zh="咖啡" data-en="Coffee">咖啡</span><span class="shop-meta-item">📍 0.8km</span><span class="shop-meta-item">⏰ 07:00-22:00</span></div>
+              <div class="shop-queue-row">
+                <div class="queue-info-chip online"><span>🌐</span><span data-zh="在线排队: 3人" data-en="Online Queue: 3">在线排队: 3人</span></div>
+                <div class="queue-info-chip instore"><span>🏪</span><span data-zh="实体排队: 1人" data-en="In-store: 1">实体排队: 1人</span></div>
+                <div class="queue-info-chip wait"><span>⏰</span><span data-zh="约5分钟" data-en="~5 min">约5分钟</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item active" onclick="showPage('home')"><span class="tab-icon">🏠</span><span data-zh="首页" data-en="Home">首页</span></div>
+        <div class="tab-item" onclick="showPage('queue-status')"><span class="tab-icon">🎫</span><span data-zh="排队" data-en="Queue">排队</span></div>
+        <div class="tab-item" onclick="showPage('my-orders')"><span class="tab-icon">📋</span><span data-zh="订单" data-en="Orders">订单</span></div>
+        <div class="tab-item" onclick="showPage('profile')"><span class="tab-icon">👤</span><span data-zh="我的" data-en="Profile">我的</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 商家详情页 ===== -->
+    <div class="page" id="page-shop-detail">
+      <div class="navbar">
+        <div class="navbar-back" onclick="showPage('home')">←</div>
+        <span class="navbar-title" data-zh="外婆家" data-en="Waipojia">外婆家</span>
+        <div class="navbar-action">❤️</div>
+      </div>
+      <div class="shop-detail-banner"><span>🍜</span></div>
+      <div class="shop-detail-info">
+        <span class="shop-detail-name" data-zh="外婆家" data-en="Waipojia Restaurant">外婆家</span>
+        <div class="shop-detail-meta">
+          <span class="meta-item">⭐ 4.8 (1286)</span>
+          <span class="meta-item">📍 0.3km</span>
+          <span class="meta-item">⏰ 10:00-22:00</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="badge badge-primary" data-zh="杭帮菜" data-en="Hangzhou Cuisine">杭帮菜</span>
+          <span class="badge badge-primary" data-zh="家常菜" data-en="Home Style">家常菜</span>
+          <span class="badge badge-success" data-zh="人气" data-en="Popular">人气</span>
+        </div>
+      </div>
+      <div class="shop-queue-stats">
+        <div class="qstat online"><span class="qstat-val">12</span><span class="qstat-lbl" data-zh="在线排队" data-en="Online Queue">在线排队</span></div>
+        <div class="qstat instore"><span class="qstat-val">5</span><span class="qstat-lbl" data-zh="实体排队" data-en="In-store Queue">实体排队</span></div>
+        <div class="qstat wait"><span class="qstat-val">~15</span><span class="qstat-lbl" data-zh="预计分钟" data-en="Est. Minutes">预计分钟</span></div>
+      </div>
+      <div class="product-category-tabs">
+        <div class="prod-cat-tab active" data-zh="招牌菜" data-en="Signature">招牌菜</div>
+        <div class="prod-cat-tab" data-zh="特色菜" data-en="Special">特色菜</div>
+        <div class="prod-cat-tab" data-zh="汤品" data-en="Soup">汤品</div>
+        <div class="prod-cat-tab" data-zh="饮品" data-en="Drinks">饮品</div>
+      </div>
+      <div class="page-scroll">
+        <div class="product-list">
+          <div class="product-item">
+            <span class="product-img">🥩</span>
+            <div class="product-info">
+              <span class="product-name" data-zh="东坡肉" data-en="Dongpo Pork">东坡肉</span>
+              <span class="product-desc" data-zh="肥而不腻，入口即化" data-en="Melt-in-mouth braised pork">肥而不腻，入口即化</span>
+              <span class="product-price">¥38</span>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateQty(this,-1)">−</button>
+              <span class="qty-num">0</span>
+              <button class="qty-btn add" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="product-item">
+            <span class="product-img">🐟</span>
+            <div class="product-info">
+              <span class="product-name" data-zh="西湖醋鱼" data-en="West Lake Fish">西湖醋鱼</span>
+              <span class="product-desc" data-zh="鲜嫩可口，酸甜适中" data-en="Sweet and sour fresh fish">鲜嫩可口，酸甜适中</span>
+              <span class="product-price">¥48</span>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateQty(this,-1)">−</button>
+              <span class="qty-num">0</span>
+              <button class="qty-btn add" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="product-item">
+            <span class="product-img">🦐</span>
+            <div class="product-info">
+              <span class="product-name" data-zh="龙井虾仁" data-en="Longjing Shrimp">龙井虾仁</span>
+              <span class="product-desc" data-zh="清香鲜嫩，茶香四溢" data-en="Shrimp with Longjing tea">清香鲜嫩，茶香四溢</span>
+              <span class="product-price">¥68</span>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateQty(this,-1)">−</button>
+              <span class="qty-num">1</span>
+              <button class="qty-btn add" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="product-item">
+            <span class="product-img">🍲</span>
+            <div class="product-info">
+              <span class="product-name" data-zh="宋嫂鱼羹" data-en="Song Sister Fish Soup">宋嫂鱼羹</span>
+              <span class="product-desc" data-zh="浓郁鲜美，暖胃暖心" data-en="Rich and savory fish soup">浓郁鲜美，暖胃暖心</span>
+              <span class="product-price">¥28</span>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateQty(this,-1)">−</button>
+              <span class="qty-num">0</span>
+              <button class="qty-btn add" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="product-item">
+            <span class="product-img">🍗</span>
+            <div class="product-info">
+              <span class="product-name" data-zh="叫花鸡" data-en="Beggar's Chicken">叫花鸡</span>
+              <span class="product-desc" data-zh="外酥里嫩，香气扑鼻" data-en="Crispy outside, tender inside">外酥里嫩，香气扑鼻</span>
+              <span class="product-price">¥88</span>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateQty(this,-1)">−</button>
+              <span class="qty-num">0</span>
+              <button class="qty-btn add" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:80px;"></div>
+      </div>
+      <div class="cart-bar">
+        <div class="cart-icon-wrap" onclick="showPage('queue-status')">
+          <span style="font-size:28px;">🛒</span>
+          <div class="cart-badge">1</div>
+        </div>
+        <span class="cart-total">¥68.00</span>
+        <button class="order-btn" onclick="showPage('pay-success')" data-zh="去下单" data-en="Order Now">去下单</button>
+      </div>
+    </div>
+
+    <!-- ===== 排队状态页 ===== -->
+    <div class="page" id="page-queue-status">
+      <div class="navbar">
+        <div class="navbar-back" onclick="showPage('home')">←</div>
+        <span class="navbar-title" data-zh="排队状态" data-en="Queue Status">排队状态</span>
+        <div class="navbar-action" onclick="alert('已刷新')">🔄</div>
+      </div>
+      <div class="page-scroll">
+        <div class="queue-hero gradient-primary">
+          <div class="queue-hero-header">
+            <span class="queue-shop-name" data-zh="外婆家" data-en="Waipojia">外婆家</span>
+            <div class="queue-status-chip" data-zh="等待中" data-en="Waiting">等待中</div>
+          </div>
+          <div class="queue-number-display">
+            <span class="queue-number-label" data-zh="您的排队号码" data-en="Your Queue Number">您的排队号码</span>
+            <span class="queue-number">A098</span>
+            <div class="queue-type-badge" data-zh="在线排队" data-en="Online Queue">在线排队</div>
+          </div>
+          <div class="queue-wait-row">
+            <div class="wait-item"><span class="wait-val">5</span><span class="wait-lbl" data-zh="前方人数" data-en="Ahead">前方人数</span></div>
+            <div class="wait-divider"></div>
+            <div class="wait-item"><span class="wait-val">15分</span><span class="wait-lbl" data-zh="预计等待" data-en="Est. Wait">预计等待</span></div>
+            <div class="wait-divider"></div>
+            <div class="wait-item"><span class="wait-val">A093</span><span class="wait-lbl" data-zh="当前叫号" data-en="Now Calling">当前叫号</span></div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px;">
+          <div class="dual-queue-tabs" style="margin:0;">
+            <div class="dual-tab active" onclick="switchQueueTab('online',this)" data-zh="在线排队" data-en="Online Queue">在线排队 <span class="tab-count-badge">12</span></div>
+            <div class="dual-tab" onclick="switchQueueTab('instore',this)" data-zh="实体排队" data-en="In-store Queue">实体排队 <span class="tab-count-badge">5</span></div>
+          </div>
+        </div>
+        <div class="queue-list-wrap" id="queueListOnline">
+          <div class="queue-list-item mine"><div class="q-rank">1</div><div class="q-no">A093 <span class="me-tag" data-zh="我" data-en="Me">我</span></div><div class="q-status called" data-zh="已叫号" data-en="Called">已叫号</div><span class="q-time">14:25</span></div>
+          <div class="queue-list-item"><div class="q-rank">2</div><div class="q-no">A094</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:28</span></div>
+          <div class="queue-list-item"><div class="q-rank">3</div><div class="q-no">A095</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:30</span></div>
+          <div class="queue-list-item"><div class="q-rank">4</div><div class="q-no">A096</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:32</span></div>
+          <div class="queue-list-item"><div class="q-rank">5</div><div class="q-no">A097</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:35</span></div>
+          <div class="queue-list-item"><div class="q-rank">6</div><div class="q-no">A098</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:38</span></div>
+        </div>
+        <div class="queue-list-wrap" id="queueListInstore" style="display:none;">
+          <div class="queue-list-item"><div class="q-rank">1</div><div class="q-no">B011</div><div class="q-status called" data-zh="已叫号" data-en="Called">已叫号</div><span class="q-time">14:20</span></div>
+          <div class="queue-list-item"><div class="q-rank">2</div><div class="q-no">B012</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:22</span></div>
+          <div class="queue-list-item"><div class="q-rank">3</div><div class="q-no">B013</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:25</span></div>
+          <div class="queue-list-item"><div class="q-rank">4</div><div class="q-no">B014</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:28</span></div>
+          <div class="queue-list-item"><div class="q-rank">5</div><div class="q-no">B015</div><div class="q-status waiting" data-zh="等待中" data-en="Waiting">等待中</div><span class="q-time">14:30</span></div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+      <div style="padding:10px 16px;background:var(--bg-card);border-top:1px solid var(--divider);flex-shrink:0;">
+        <button class="btn btn-primary btn-full btn-lg" onclick="alert('已通知商家您到店了！')" data-zh="我已到店" data-en="I've Arrived">我已到店</button>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showPage('home')"><span class="tab-icon">🏠</span><span data-zh="首页" data-en="Home">首页</span></div>
+        <div class="tab-item active" onclick="showPage('queue-status')"><span class="tab-icon">🎫</span><span data-zh="排队" data-en="Queue">排队</span></div>
+        <div class="tab-item" onclick="showPage('my-orders')"><span class="tab-icon">📋</span><span data-zh="订单" data-en="Orders">订单</span></div>
+        <div class="tab-item" onclick="showPage('profile')"><span class="tab-icon">👤</span><span data-zh="我的" data-en="Profile">我的</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 支付成功页 ===== -->
+    <div class="page" id="page-pay-success">
+      <div class="navbar">
+        <div class="navbar-back" onclick="showPage('home')">←</div>
+        <span class="navbar-title" data-zh="支付结果" data-en="Payment Result">支付结果</span>
+        <div style="width:36px;"></div>
+      </div>
+      <div class="success-page">
+        <div class="success-icon-wrap">
+          <div class="success-circle"><span class="check-icon">✓</span></div>
+          <div class="ripple ripple-1"></div>
+          <div class="ripple ripple-2"></div>
+        </div>
+        <div class="success-title" data-zh="支付成功！" data-en="Payment Successful!">支付成功！</div>
+        <div class="success-subtitle" data-zh="您的订单已成功提交" data-en="Your order has been placed">您的订单已成功提交</div>
+        <div class="queue-number-card">
+          <span class="qn-label" data-zh="您的排队号码" data-en="Your Queue Number">您的排队号码</span>
+          <span class="qn-number">A098</span>
+          <div class="qn-type" data-zh="在线排队" data-en="Online Queue">在线排队</div>
+        </div>
+        <div class="order-info-card">
+          <div class="oi-row"><span class="oi-label" data-zh="订单号" data-en="Order No.">订单号</span><span class="oi-value">ORD20250601001</span></div>
+          <div class="oi-row"><span class="oi-label" data-zh="预计取货" data-en="Pickup Time">预计取货</span><span class="oi-value">15:00</span></div>
+          <div class="oi-row"><span class="oi-label" data-zh="订单金额" data-en="Total">订单金额</span><span class="oi-value primary">¥86.00</span></div>
+        </div>
+        <div class="wait-notice">
+          <span class="wn-icon">🔔</span>
+          <span class="wn-text" data-zh="商家备货完成后将推送通知提醒您到店取货" data-en="You will be notified when your order is ready for pickup">商家备货完成后将推送通知提醒您到店取货</span>
+        </div>
+        <div class="success-btns">
+          <button class="success-btn primary" onclick="showPage('queue-status')" data-zh="查看排队状态" data-en="View Queue Status">查看排队状态</button>
+          <button class="success-btn outline" onclick="showPage('home')" data-zh="返回首页" data-en="Back to Home">返回首页</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 我的订单页 ===== -->
+    <div class="page" id="page-my-orders">
+      <div class="navbar">
+        <div style="width:36px;"></div>
+        <span class="navbar-title" data-zh="我的订单" data-en="My Orders">我的订单</span>
+        <div style="width:36px;"></div>
+      </div>
+      <div style="display:flex;gap:8px;padding:10px 16px;background:var(--bg-card);border-bottom:1px solid var(--divider);overflow-x:auto;flex-shrink:0;">
+        <div class="badge badge-primary" style="padding:6px 14px;border-radius:20px;cursor:pointer;border:1.5px solid var(--primary);" data-zh="全部" data-en="All">全部</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);" data-zh="待支付" data-en="Pending">待支付</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);" data-zh="已支付" data-en="Paid">已支付</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);" data-zh="待领取" data-en="Ready">待领取</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);" data-zh="已完成" data-en="Done">已完成</div>
+      </div>
+      <div class="page-scroll">
+        <div class="card" style="margin:12px 16px 0;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px 10px;border-bottom:1px solid var(--divider);">
+            <div><span style="display:block;font-size:15px;font-weight:700;color:var(--text-primary);" data-zh="外婆家" data-en="Waipojia">外婆家</span><span style="font-size:11px;color:var(--text-hint);">6/1 14:30</span></div>
+            <span class="badge badge-primary" data-zh="待领取" data-en="Ready">待领取</span>
+          </div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--divider);">
+            <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:13px;color:var(--text-secondary);" data-zh="龙井虾仁 x1" data-en="Longjing Shrimp x1">龙井虾仁 x1</span><span style="font-size:13px;font-weight:500;">¥68</span></div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:13px;color:var(--text-secondary);" data-zh="东坡肉 x1" data-en="Dongpo Pork x1">东坡肉 x1</span><span style="font-size:13px;font-weight:500;">¥38</span></div>
+          </div>
+          <div style="display:flex;gap:8px;padding:8px 14px;border-bottom:1px solid var(--divider);">
+            <span class="badge badge-success" data-zh="🎫 A098 在线排队" data-en="🎫 A098 Online">🎫 A098 在线排队</span>
+            <span class="badge" style="background:var(--warning-bg);color:var(--warning);" data-zh="⏰ 15:00取货" data-en="⏰ Pickup 15:00">⏰ 15:00取货</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px 14px;">
+            <div><span style="font-size:11px;color:var(--text-hint);" data-zh="订单金额" data-en="Total">订单金额</span><div style="font-size:18px;font-weight:800;color:var(--primary);">¥106.00</div></div>
+            <div style="display:flex;gap:8px;">
+              <button class="maction-btn ghost" style="padding:0 14px;" onclick="showPage('queue-status')" data-zh="查看排队" data-en="View Queue">查看排队</button>
+              <button class="maction-btn primary" style="padding:0 14px;" onclick="alert('退款申请已提交')" data-zh="申请退款" data-en="Refund">申请退款</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin:10px 16px 0;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px 10px;border-bottom:1px solid var(--divider);">
+            <div><span style="display:block;font-size:15px;font-weight:700;color:var(--text-primary);" data-zh="喜茶" data-en="HEYTEA">喜茶</span><span style="font-size:11px;color:var(--text-hint);">5/31 16:00</span></div>
+            <span class="badge badge-success" data-zh="已完成" data-en="Completed">已完成</span>
+          </div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--divider);">
+            <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:13px;color:var(--text-secondary);" data-zh="多肉葡萄 x2" data-en="Grape Cheese x2">多肉葡萄 x2</span><span style="font-size:13px;font-weight:500;">¥44</span></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px 14px;">
+            <div><span style="font-size:11px;color:var(--text-hint);" data-zh="订单金额" data-en="Total">订单金额</span><div style="font-size:18px;font-weight:800;color:var(--primary);">¥44.00</div></div>
+            <button class="maction-btn primary" style="padding:0 14px;" onclick="showPage('shop-detail')" data-zh="再来一单" data-en="Reorder">再来一单</button>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showPage('home')"><span class="tab-icon">🏠</span><span data-zh="首页" data-en="Home">首页</span></div>
+        <div class="tab-item" onclick="showPage('queue-status')"><span class="tab-icon">🎫</span><span data-zh="排队" data-en="Queue">排队</span></div>
+        <div class="tab-item active" onclick="showPage('my-orders')"><span class="tab-icon">📋</span><span data-zh="订单" data-en="Orders">订单</span></div>
+        <div class="tab-item" onclick="showPage('profile')"><span class="tab-icon">👤</span><span data-zh="我的" data-en="Profile">我的</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 个人中心页 ===== -->
+    <div class="page" id="page-profile">
+      <div class="navbar">
+        <div style="width:36px;"></div>
+        <span class="navbar-title" data-zh="个人中心" data-en="Profile">个人中心</span>
+        <div style="width:36px;"></div>
+      </div>
+      <div class="page-scroll">
+        <div class="profile-hero gradient-primary">
+          <div class="profile-avatar">👤</div>
+          <span class="profile-name" data-zh="张小明" data-en="Zhang Xiaoming">张小明</span>
+          <span class="profile-phone">138****8888</span>
+          <div class="profile-role-badge" data-zh="普通用户" data-en="User">普通用户</div>
+        </div>
+        <div class="profile-stats">
+          <div class="ps-item"><span class="ps-val">28</span><span class="ps-lbl" data-zh="订单数" data-en="Orders">订单数</span></div>
+          <div class="ps-divider"></div>
+          <div class="ps-item"><span class="ps-val">25</span><span class="ps-lbl" data-zh="已完成" data-en="Completed">已完成</span></div>
+          <div class="ps-divider"></div>
+          <div class="ps-item"><span class="ps-val">1</span><span class="ps-lbl" data-zh="退款" data-en="Refunds">退款</span></div>
+        </div>
+        <div class="menu-section">
+          <div class="menu-group">
+            <div class="menu-item" onclick="showPage('my-orders')"><span class="menu-icon">📋</span><span class="menu-label" data-zh="我的订单" data-en="My Orders">我的订单</span><span class="menu-arrow">›</span></div>
+            <div class="menu-divider"></div>
+            <div class="menu-item" onclick="showPage('queue-status')"><span class="menu-icon">🚶</span><span class="menu-label" data-zh="排队记录" data-en="Queue History">排队记录</span><span class="menu-arrow">›</span></div>
+          </div>
+          <div class="menu-group">
+            <div class="menu-item">
+              <span class="menu-icon">🌐</span>
+              <span class="menu-label" data-zh="语言设置" data-en="Language">语言设置</span>
+              <div style="display:flex;background:var(--bg-input);border-radius:10px;overflow:hidden;">
+                <div id="profileLangZh" style="padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;background:var(--primary);color:#fff;border-radius:10px;" onclick="setLang('zh')">中文</div>
+                <div id="profileLangEn" style="padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-hint);" onclick="setLang('en')">EN</div>
+              </div>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-item">
+              <span class="menu-icon" id="themeIcon">☀️</span>
+              <span class="menu-label" data-zh="主题设置" data-en="Theme">主题设置</span>
+              <div class="theme-toggle-row">
+                <div class="theme-opt active" id="themeLight" onclick="setTheme('light')" data-zh="☀️ 白天" data-en="☀️ Light">☀️ 白天</div>
+                <div class="theme-opt" id="themeDark" onclick="setTheme('dark')" data-zh="🌙 夜间" data-en="🌙 Dark">🌙 夜间</div>
+              </div>
+            </div>
+          </div>
+          <div class="menu-group">
+            <div class="menu-item" onclick="showPage('merchant-orders')"><span class="menu-icon">🏪</span><span class="menu-label" data-zh="进入商家管理" data-en="Merchant Dashboard">进入商家管理</span><span class="menu-arrow">›</span></div>
+            <div class="menu-divider"></div>
+            <div class="menu-item" onclick="showPage('admin-shops')"><span class="menu-icon">👑</span><span class="menu-label" data-zh="进入平台管理" data-en="Admin Panel">进入平台管理</span><span class="menu-arrow">›</span></div>
+          </div>
+          <div class="menu-group">
+            <button class="logout-btn" onclick="showPage('login')" data-zh="退出登录" data-en="Logout">退出登录</button>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showPage('home')"><span class="tab-icon">🏠</span><span data-zh="首页" data-en="Home">首页</span></div>
+        <div class="tab-item" onclick="showPage('queue-status')"><span class="tab-icon">🎫</span><span data-zh="排队" data-en="Queue">排队</span></div>
+        <div class="tab-item" onclick="showPage('my-orders')"><span class="tab-icon">📋</span><span data-zh="订单" data-en="Orders">订单</span></div>
+        <div class="tab-item active" onclick="showPage('profile')"><span class="tab-icon">👤</span><span data-zh="我的" data-en="Profile">我的</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 商家端：订单管理 ===== -->
+    <div class="page" id="page-merchant-orders">
+      <div class="merchant-header gradient-dark">
+        <div>
+          <span class="merchant-brand" data-zh="外婆家 · 商家端" data-en="Waipojia · Merchant">外婆家 · 商家端</span>
+          <span class="merchant-sub" data-zh="今日营业中" data-en="Open Today">今日营业中</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="header-btn" onclick="toggleLang()" style="background:rgba(255,255,255,0.15);">🌐</button>
+          <button class="header-btn" onclick="showPage('profile')" style="background:rgba(255,255,255,0.15);">🏪</button>
+        </div>
+      </div>
+      <div class="merchant-tabs">
+        <div class="merchant-tab active" onclick="showPage('merchant-orders')"><span class="m-tab-icon">📋</span><span data-zh="订单管理" data-en="Orders">订单管理</span></div>
+        <div class="merchant-tab" onclick="showPage('merchant-queue')"><span class="m-tab-icon">🚶</span><span data-zh="排队管理" data-en="Queue">排队管理</span></div>
+        <div class="merchant-tab" onclick="showPage('merchant-notify')"><span class="m-tab-icon">🔔</span><span data-zh="通知用户" data-en="Notify">通知用户</span></div>
+      </div>
+      <div class="merchant-stats">
+        <div class="m-stat"><span class="m-stat-val">18</span><span class="m-stat-lbl" data-zh="今日订单" data-en="Today">今日订单</span></div>
+        <div class="m-stat"><span class="m-stat-val" style="color:var(--warning);">5</span><span class="m-stat-lbl" data-zh="待处理" data-en="Pending">待处理</span></div>
+        <div class="m-stat"><span class="m-stat-val" style="color:var(--success);">11</span><span class="m-stat-lbl" data-zh="已完成" data-en="Done">已完成</span></div>
+        <div class="m-stat"><span class="m-stat-val">¥2,840</span><span class="m-stat-lbl" data-zh="今日营收" data-en="Revenue">今日营收</span></div>
+      </div>
+      <div class="page-scroll">
+        <div class="order-card-merchant">
+          <div class="morder-head">
+            <div class="customer-row"><span class="cust-avatar">👤</span><div><span class="cust-name" data-zh="张小明" data-en="Zhang Xiaoming">张小明</span><span class="cust-time">14:30 · ORD001</span></div></div>
+            <div class="morder-status paid" data-zh="已支付" data-en="Paid">已支付</div>
+          </div>
+          <div class="morder-items">
+            <div class="morder-item">🥩 <span data-zh="东坡肉 x1" data-en="Dongpo Pork x1">东坡肉 x1</span></div>
+            <div class="morder-item">🐟 <span data-zh="西湖醋鱼 x1" data-en="West Lake Fish x1">西湖醋鱼 x1</span></div>
+          </div>
+          <div class="morder-queue-row">
+            <div class="mqueue-badge online" data-zh="🌐 在线排队 A098" data-en="🌐 Online A098">🌐 在线排队 A098</div>
+            <span style="font-size:13px;color:var(--text-hint);" data-zh="预计15:00取货" data-en="Pickup ~15:00">预计15:00取货</span>
+            <span style="font-size:15px;font-weight:800;color:var(--primary);margin-left:auto;">¥86</span>
+          </div>
+          <div class="morder-actions">
+            <button class="maction-btn primary" onclick="alert('已开始备货')" data-zh="开始备货" data-en="Start Preparing">开始备货</button>
+            <button class="maction-btn info" onclick="showPage('merchant-notify')" data-zh="通知取货" data-en="Notify Pickup">通知取货</button>
+            <button class="maction-btn ghost" onclick="alert('已拒绝')" data-zh="拒绝" data-en="Reject">拒绝</button>
+          </div>
+        </div>
+        <div class="order-card-merchant" style="margin-top:10px;">
+          <div class="morder-head">
+            <div class="customer-row"><span class="cust-avatar">👩</span><div><span class="cust-name" data-zh="李美华" data-en="Li Meihua">李美华</span><span class="cust-time">14:15 · ORD002</span></div></div>
+            <div class="morder-status preparing" data-zh="备货中" data-en="Preparing">备货中</div>
+          </div>
+          <div class="morder-items">
+            <div class="morder-item">🦐 <span data-zh="龙井虾仁 x1" data-en="Longjing Shrimp x1">龙井虾仁 x1</span></div>
+          </div>
+          <div class="morder-queue-row">
+            <div class="mqueue-badge instore" data-zh="🏪 实体排队 B012" data-en="🏪 In-store B012">🏪 实体排队 B012</div>
+            <span style="font-size:15px;font-weight:800;color:var(--primary);margin-left:auto;">¥68</span>
+          </div>
+          <div class="morder-actions">
+            <button class="maction-btn success" onclick="alert('已通知用户取货！')" data-zh="备好了，通知取货" data-en="Ready, Notify">备好了，通知取货</button>
+          </div>
+        </div>
+        <div class="order-card-merchant" style="margin-top:10px;">
+          <div class="morder-head">
+            <div class="customer-row"><span class="cust-avatar">👦</span><div><span class="cust-name" data-zh="王大力" data-en="Wang Dali">王大力</span><span class="cust-time">13:50 · ORD003</span></div></div>
+            <div class="morder-status ready" data-zh="待取货" data-en="Ready">待取货</div>
+          </div>
+          <div class="morder-items">
+            <div class="morder-item">🍗 <span data-zh="叫花鸡 x1" data-en="Beggar's Chicken x1">叫花鸡 x1</span></div>
+            <div class="morder-item">🍲 <span data-zh="宋嫂鱼羹 x1" data-en="Fish Soup x1">宋嫂鱼羹 x1</span></div>
+          </div>
+          <div class="morder-queue-row">
+            <div class="mqueue-badge online" data-zh="🌐 在线排队 A094" data-en="🌐 Online A094">🌐 在线排队 A094</div>
+            <span style="font-size:15px;font-weight:800;color:var(--primary);margin-left:auto;">¥116</span>
+          </div>
+          <div class="morder-actions">
+            <button class="maction-btn success" onclick="alert('订单已完成！')" data-zh="确认已取货" data-en="Confirm Pickup">确认已取货</button>
+            <button class="maction-btn ghost" onclick="alert('爽约处理中...')" data-zh="用户爽约" data-en="No-show">用户爽约</button>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ===== 商家端：排队管理 ===== -->
+    <div class="page" id="page-merchant-queue">
+      <div class="merchant-header gradient-dark">
+        <div>
+          <span class="merchant-brand" data-zh="外婆家 · 排队管理" data-en="Waipojia · Queue">外婆家 · 排队管理</span>
+          <span class="merchant-sub" data-zh="实时排队状态" data-en="Real-time Queue">实时排队状态</span>
+        </div>
+        <button class="header-btn" style="background:rgba(255,255,255,0.15);font-size:14px;color:#fff;" onclick="alert('已刷新排队数据')">🔄</button>
+      </div>
+      <div class="merchant-tabs">
+        <div class="merchant-tab" onclick="showPage('merchant-orders')"><span class="m-tab-icon">📋</span><span data-zh="订单管理" data-en="Orders">订单管理</span></div>
+        <div class="merchant-tab active" onclick="showPage('merchant-queue')"><span class="m-tab-icon">🚶</span><span data-zh="排队管理" data-en="Queue">排队管理</span></div>
+        <div class="merchant-tab" onclick="showPage('merchant-notify')"><span class="m-tab-icon">🔔</span><span data-zh="通知用户" data-en="Notify">通知用户</span></div>
+      </div>
+      <div class="page-scroll">
+        <!-- 在线排队控制 -->
+        <div style="margin:12px 16px 0;background:var(--bg-card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--divider);">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🌐</span><span style="font-size:15px;font-weight:700;color:var(--text-primary);" data-zh="在线排队" data-en="Online Queue">在线排队</span></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:28px;font-weight:900;color:var(--success);">12</span>
+              <span style="font-size:12px;color:var(--text-hint);" data-zh="人等待" data-en="waiting">人等待</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;padding:12px 16px;">
+            <button class="maction-btn primary" style="flex:1;height:40px;" onclick="alert('已叫下一号')" data-zh="叫下一号" data-en="Call Next">叫下一号</button>
+            <button class="maction-btn success" style="flex:1;height:40px;" onclick="alert('已开放在线排队')" data-zh="开放排队" data-en="Open Queue">开放排队</button>
+            <button class="maction-btn ghost" style="flex:1;height:40px;" onclick="alert('已暂停在线排队')" data-zh="暂停排队" data-en="Pause">暂停排队</button>
+          </div>
+          <div style="padding:0 16px 14px;">
+            <div style="font-size:12px;font-weight:600;color:var(--text-hint);margin-bottom:8px;" data-zh="当前在线排队列表" data-en="Online Queue List">当前在线排队列表</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--primary-bg);border-radius:8px;border-left:3px solid var(--primary);">
+                <span style="font-size:14px;font-weight:800;color:var(--primary);">A093</span>
+                <span style="flex:1;font-size:12px;color:var(--text-secondary);" data-zh="张小明" data-en="Zhang Xiaoming">张小明</span>
+                <span class="badge badge-primary" data-zh="已叫号" data-en="Called">已叫号</span>
+                <button style="background:var(--primary);color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer;" onclick="alert('已通知 A093')" data-zh="通知" data-en="Notify">通知</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg-input);border-radius:8px;">
+                <span style="font-size:14px;font-weight:800;color:var(--text-primary);">A094</span>
+                <span style="flex:1;font-size:12px;color:var(--text-secondary);" data-zh="王大力" data-en="Wang Dali">王大力</span>
+                <span class="badge badge-warning" data-zh="等待中" data-en="Waiting">等待中</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg-input);border-radius:8px;">
+                <span style="font-size:14px;font-weight:800;color:var(--text-primary);">A095</span>
+                <span style="flex:1;font-size:12px;color:var(--text-secondary);" data-zh="李美华" data-en="Li Meihua">李美华</span>
+                <span class="badge badge-warning" data-zh="等待中" data-en="Waiting">等待中</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 实体排队控制 -->
+        <div style="margin:10px 16px 0;background:var(--bg-card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--divider);">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🏪</span><span style="font-size:15px;font-weight:700;color:var(--text-primary);" data-zh="实体排队" data-en="In-store Queue">实体排队</span></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:28px;font-weight:900;color:var(--info);">5</span>
+              <span style="font-size:12px;color:var(--text-hint);" data-zh="人等待" data-en="waiting">人等待</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;padding:12px 16px;">
+            <button class="maction-btn info" style="flex:1;height:40px;" onclick="alert('已叫下一号')" data-zh="叫下一号" data-en="Call Next">叫下一号</button>
+            <button class="maction-btn success" style="flex:1;height:40px;" onclick="alert('已发放新号码')" data-zh="发放号码" data-en="Issue Number">发放号码</button>
+          </div>
+          <div style="padding:0 16px 14px;">
+            <div style="font-size:12px;font-weight:600;color:var(--text-hint);margin-bottom:8px;" data-zh="当前实体排队列表" data-en="In-store Queue List">当前实体排队列表</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--info-bg);border-radius:8px;border-left:3px solid var(--info);">
+                <span style="font-size:14px;font-weight:800;color:var(--info);">B011</span>
+                <span style="flex:1;font-size:12px;color:var(--text-secondary);" data-zh="现场顾客" data-en="Walk-in Customer">现场顾客</span>
+                <span class="badge badge-info" data-zh="已叫号" data-en="Called">已叫号</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg-input);border-radius:8px;">
+                <span style="font-size:14px;font-weight:800;color:var(--text-primary);">B012</span>
+                <span style="flex:1;font-size:12px;color:var(--text-secondary);" data-zh="现场顾客" data-en="Walk-in Customer">现场顾客</span>
+                <span class="badge badge-warning" data-zh="等待中" data-en="Waiting">等待中</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ===== 商家端：通知用户 ===== -->
+    <div class="page" id="page-merchant-notify">
+      <div class="merchant-header gradient-dark">
+        <div>
+          <span class="merchant-brand" data-zh="外婆家 · 通知中心" data-en="Waipojia · Notifications">外婆家 · 通知中心</span>
+          <span class="merchant-sub" data-zh="主动通知用户取货" data-en="Notify customers for pickup">主动通知用户取货</span>
+        </div>
+      </div>
+      <div class="merchant-tabs">
+        <div class="merchant-tab" onclick="showPage('merchant-orders')"><span class="m-tab-icon">📋</span><span data-zh="订单管理" data-en="Orders">订单管理</span></div>
+        <div class="merchant-tab" onclick="showPage('merchant-queue')"><span class="m-tab-icon">🚶</span><span data-zh="排队管理" data-en="Queue">排队管理</span></div>
+        <div class="merchant-tab active" onclick="showPage('merchant-notify')"><span class="m-tab-icon">🔔</span><span data-zh="通知用户" data-en="Notify">通知用户</span></div>
+      </div>
+      <div class="page-scroll">
+        <div style="padding:12px 16px 0;">
+          <div style="background:var(--warning-bg);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start;">
+            <span style="font-size:18px;">⚠️</span>
+            <span style="font-size:12px;color:var(--warning);line-height:1.5;" data-zh="有2个订单已备好，请及时通知用户取货，避免爽约" data-en="2 orders are ready. Please notify customers to avoid no-shows.">有2个订单已备好，请及时通知用户取货，避免爽约</span>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:10px;" data-zh="待通知订单" data-en="Orders to Notify">待通知订单</div>
+          <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:10px;">
+            <div style="padding:14px 14px 10px;border-bottom:1px solid var(--divider);">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;">👤</span><div><span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="张小明" data-en="Zhang Xiaoming">张小明</span><span style="font-size:11px;color:var(--text-hint);">A098 · ORD001</span></div></div>
+                <span class="badge badge-primary" data-zh="待取货" data-en="Ready">待取货</span>
+              </div>
+            </div>
+            <div style="padding:10px 14px;border-bottom:1px solid var(--divider);">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <span class="badge badge-info" data-zh="东坡肉 x1" data-en="Dongpo Pork x1">东坡肉 x1</span>
+                <span class="badge badge-info" data-zh="西湖醋鱼 x1" data-en="West Lake Fish x1">西湖醋鱼 x1</span>
+              </div>
+            </div>
+            <div style="padding:10px 14px 14px;display:flex;gap:8px;">
+              <button class="maction-btn primary" style="flex:2;height:40px;" onclick="alert('已推送通知给张小明！')" data-zh="📲 推送通知取货" data-en="📲 Push Notification">📲 推送通知取货</button>
+              <button class="maction-btn ghost" style="flex:1;height:40px;" onclick="alert('已发送短信')" data-zh="📱 短信" data-en="📱 SMS">📱 短信</button>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:10px;">
+            <div style="padding:14px 14px 10px;border-bottom:1px solid var(--divider);">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;">👦</span><div><span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="王大力" data-en="Wang Dali">王大力</span><span style="font-size:11px;color:var(--text-hint);">A094 · ORD003</span></div></div>
+                <span class="badge badge-primary" data-zh="待取货" data-en="Ready">待取货</span>
+              </div>
+            </div>
+            <div style="padding:10px 14px;border-bottom:1px solid var(--divider);">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <span class="badge badge-info" data-zh="叫花鸡 x1" data-en="Beggar's Chicken x1">叫花鸡 x1</span>
+                <span class="badge badge-info" data-zh="宋嫂鱼羹 x1" data-en="Fish Soup x1">宋嫂鱼羹 x1</span>
+              </div>
+            </div>
+            <div style="padding:10px 14px 14px;display:flex;gap:8px;">
+              <button class="maction-btn primary" style="flex:2;height:40px;" onclick="alert('已推送通知给王大力！')" data-zh="📲 推送通知取货" data-en="📲 Push Notification">📲 推送通知取货</button>
+              <button class="maction-btn ghost" style="flex:1;height:40px;" onclick="alert('已发送短信')" data-zh="📱 短信" data-en="📱 SMS">📱 短信</button>
+            </div>
+          </div>
+          <button style="width:100%;height:48px;background:var(--primary);color:#fff;border:none;border-radius:24px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="alert('已批量通知所有待取货用户！')" data-zh="📢 批量通知所有待取货用户" data-en="📢 Notify All Ready Orders">📢 批量通知所有待取货用户</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ===== 管理员：商家管理 ===== -->
+    <div class="page" id="page-admin-shops">
+      <div class="admin-header">
+        <div class="admin-brand-row"><span class="admin-brand-icon">👑</span><div><span class="admin-brand-title" data-zh="平台管理后台" data-en="Admin Panel">平台管理后台</span><span class="admin-brand-sub">QueueGo Platform</span></div></div>
+        <div style="display:flex;gap:8px;"><button class="header-btn" onclick="toggleLang()" style="background:rgba(255,255,255,0.15);">🌐</button></div>
+      </div>
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="showPage('admin-shops')"><span>🏪</span><span data-zh="商家管理" data-en="Shops">商家管理</span></div>
+        <div class="admin-tab" onclick="showPage('admin-products')"><span>🛒</span><span data-zh="产品管理" data-en="Products">产品管理</span></div>
+        <div class="admin-tab" onclick="showPage('admin-stats')"><span>📊</span><span data-zh="数据统计" data-en="Statistics">数据统计</span></div>
+      </div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-val">24</span><span class="pstat-lbl" data-zh="商家总数" data-en="Total Shops">商家总数</span></div>
+        <div class="pstat"><span class="pstat-val" style="color:var(--success);">21</span><span class="pstat-lbl" data-zh="营业中" data-en="Active">营业中</span></div>
+        <div class="pstat"><span class="pstat-val" style="color:var(--error);">3</span><span class="pstat-lbl" data-zh="已暂停" data-en="Suspended">已暂停</span></div>
+        <div class="pstat"><span class="pstat-val">186</span><span class="pstat-lbl" data-zh="产品数" data-en="Products">产品数</span></div>
+      </div>
+      <div class="search-add-bar">
+        <div class="search-box-sm"><span>🔍</span><input class="search-input-sm" data-placeholder-zh="搜索商家..." data-placeholder-en="Search shops..." placeholder="搜索商家..."></div>
+        <button class="add-btn-sm" onclick="alert('新增商家功能')" data-zh="+ 新增商家" data-en="+ Add Shop">+ 新增商家</button>
+      </div>
+      <div class="page-scroll">
+        <div class="shop-admin-card">
+          <div class="shop-admin-head">
+            <span class="shop-admin-emoji">🍜</span>
+            <div><span class="shop-admin-name" data-zh="外婆家" data-en="Waipojia">外婆家</span><span class="shop-admin-cat" data-zh="杭帮菜 · 杭州西湖区" data-en="Hangzhou Cuisine · Xihu">杭帮菜 · 杭州西湖区</span></div>
+            <div class="shop-admin-status active" data-zh="营业中" data-en="Active">营业中</div>
+          </div>
+          <div class="shop-admin-stats">
+            <div class="sas-item"><span class="sas-val">28,640</span><span class="sas-lbl" data-zh="本月营收(¥)" data-en="Monthly Rev.(¥)">本月营收(¥)</span></div>
+            <div class="sas-item"><span class="sas-val">342</span><span class="sas-lbl" data-zh="本月订单" data-en="Monthly Orders">本月订单</span></div>
+            <div class="sas-item"><span class="sas-val">4.8⭐</span><span class="sas-lbl" data-zh="评分" data-en="Rating">评分</span></div>
+          </div>
+          <div class="shop-admin-actions">
+            <button class="sa-btn view" onclick="alert('查看详情')" data-zh="查看" data-en="View">查看</button>
+            <button class="sa-btn edit" onclick="alert('编辑商家')" data-zh="编辑" data-en="Edit">编辑</button>
+            <button class="sa-btn suspend" onclick="alert('已暂停商家')" data-zh="暂停" data-en="Suspend">暂停</button>
+            <button class="sa-btn delete" onclick="alert('删除确认')" data-zh="删除" data-en="Delete">删除</button>
+          </div>
+        </div>
+        <div class="shop-admin-card" style="margin-top:10px;">
+          <div class="shop-admin-head">
+            <span class="shop-admin-emoji">🧋</span>
+            <div><span class="shop-admin-name" data-zh="喜茶" data-en="HEYTEA">喜茶</span><span class="shop-admin-cat" data-zh="奶茶 · 杭州西湖区" data-en="Milk Tea · Xihu">奶茶 · 杭州西湖区</span></div>
+            <div class="shop-admin-status active" data-zh="营业中" data-en="Active">营业中</div>
+          </div>
+          <div class="shop-admin-stats">
+            <div class="sas-item"><span class="sas-val">42,000</span><span class="sas-lbl" data-zh="本月营收(¥)" data-en="Monthly Rev.(¥)">本月营收(¥)</span></div>
+            <div class="sas-item"><span class="sas-val">580</span><span class="sas-lbl" data-zh="本月订单" data-en="Monthly Orders">本月订单</span></div>
+            <div class="sas-item"><span class="sas-val">4.7⭐</span><span class="sas-lbl" data-zh="评分" data-en="Rating">评分</span></div>
+          </div>
+          <div class="shop-admin-actions">
+            <button class="sa-btn view" onclick="alert('查看详情')" data-zh="查看" data-en="View">查看</button>
+            <button class="sa-btn edit" onclick="alert('编辑商家')" data-zh="编辑" data-en="Edit">编辑</button>
+            <button class="sa-btn suspend" onclick="alert('已暂停商家')" data-zh="暂停" data-en="Suspend">暂停</button>
+            <button class="sa-btn delete" onclick="alert('删除确认')" data-zh="删除" data-en="Delete">删除</button>
+          </div>
+        </div>
+        <div class="shop-admin-card" style="margin-top:10px;">
+          <div class="shop-admin-head">
+            <span class="shop-admin-emoji">🍵</span>
+            <div><span class="shop-admin-name" data-zh="奈雪的茶" data-en="Nayuki's Tea">奈雪的茶</span><span class="shop-admin-cat" data-zh="奶茶 · 杭州天目山路" data-en="Milk Tea · Tianmushan">奶茶 · 杭州天目山路</span></div>
+            <div class="shop-admin-status suspended" data-zh="已暂停" data-en="Suspended">已暂停</div>
+          </div>
+          <div class="shop-admin-stats">
+            <div class="sas-item"><span class="sas-val">0</span><span class="sas-lbl" data-zh="本月营收(¥)" data-en="Monthly Rev.(¥)">本月营收(¥)</span></div>
+            <div class="sas-item"><span class="sas-val">0</span><span class="sas-lbl" data-zh="本月订单" data-en="Monthly Orders">本月订单</span></div>
+            <div class="sas-item"><span class="sas-val">4.7⭐</span><span class="sas-lbl" data-zh="评分" data-en="Rating">评分</span></div>
+          </div>
+          <div class="shop-admin-actions">
+            <button class="sa-btn view" onclick="alert('查看详情')" data-zh="查看" data-en="View">查看</button>
+            <button class="sa-btn edit" onclick="alert('编辑商家')" data-zh="编辑" data-en="Edit">编辑</button>
+            <button class="sa-btn" style="background:var(--success-bg);color:var(--success);" onclick="alert('已恢复商家')" data-zh="恢复" data-en="Restore">恢复</button>
+            <button class="sa-btn delete" onclick="alert('删除确认')" data-zh="删除" data-en="Delete">删除</button>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ===== 管理员：产品管理 ===== -->
+    <div class="page" id="page-admin-products">
+      <div class="admin-header">
+        <div class="admin-brand-row"><span class="admin-brand-icon">👑</span><div><span class="admin-brand-title" data-zh="产品管理" data-en="Product Management">产品管理</span><span class="admin-brand-sub">QueueGo Platform</span></div></div>
+      </div>
+      <div class="admin-tabs">
+        <div class="admin-tab" onclick="showPage('admin-shops')"><span>🏪</span><span data-zh="商家管理" data-en="Shops">商家管理</span></div>
+        <div class="admin-tab active" onclick="showPage('admin-products')"><span>🛒</span><span data-zh="产品管理" data-en="Products">产品管理</span></div>
+        <div class="admin-tab" onclick="showPage('admin-stats')"><span>📊</span><span data-zh="数据统计" data-en="Statistics">数据统计</span></div>
+      </div>
+      <div style="display:flex;gap:8px;padding:10px 16px;background:var(--bg-card);border-bottom:1px solid var(--divider);overflow-x:auto;flex-shrink:0;">
+        <div class="badge badge-primary" style="padding:6px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;" data-zh="全部商家" data-en="All Shops">全部商家</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);white-space:nowrap;" data-zh="外婆家" data-en="Waipojia">外婆家</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);white-space:nowrap;" data-zh="喜茶" data-en="HEYTEA">喜茶</div>
+        <div class="badge" style="padding:6px 14px;border-radius:20px;cursor:pointer;background:var(--bg-input);color:var(--text-secondary);white-space:nowrap;" data-zh="星巴克" data-en="Starbucks">星巴克</div>
+      </div>
+      <div class="search-add-bar">
+        <div class="search-box-sm"><span>🔍</span><input class="search-input-sm" data-placeholder-zh="搜索产品..." data-placeholder-en="Search products..." placeholder="搜索产品..."></div>
+        <button class="add-btn-sm" onclick="alert('新增产品功能')" data-zh="+ 新增产品" data-en="+ Add Product">+ 新增产品</button>
+      </div>
+      <div class="page-scroll">
+        <div style="padding:10px 16px 0;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--bg-card);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);">
+            <span style="font-size:32px;">🥩</span>
+            <div style="flex:1;">
+              <span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="东坡肉" data-en="Dongpo Pork">东坡肉</span>
+              <span style="display:block;font-size:11px;color:var(--text-hint);" data-zh="外婆家 · 招牌菜" data-en="Waipojia · Signature">外婆家 · 招牌菜</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <span style="font-size:15px;font-weight:800;color:var(--primary);">¥38</span>
+                <span class="badge badge-success" data-zh="库存: 50" data-en="Stock: 50">库存: 50</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sa-btn edit" style="padding:5px 10px;" onclick="alert('编辑产品')" data-zh="编辑" data-en="Edit">编辑</button>
+              <button class="sa-btn delete" style="padding:5px 10px;" onclick="alert('下架产品')" data-zh="下架" data-en="Remove">下架</button>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);">
+            <span style="font-size:32px;">🐟</span>
+            <div style="flex:1;">
+              <span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="西湖醋鱼" data-en="West Lake Fish">西湖醋鱼</span>
+              <span style="display:block;font-size:11px;color:var(--text-hint);" data-zh="外婆家 · 招牌菜" data-en="Waipojia · Signature">外婆家 · 招牌菜</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <span style="font-size:15px;font-weight:800;color:var(--primary);">¥48</span>
+                <span class="badge badge-success" data-zh="库存: 30" data-en="Stock: 30">库存: 30</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sa-btn edit" style="padding:5px 10px;" onclick="alert('编辑产品')" data-zh="编辑" data-en="Edit">编辑</button>
+              <button class="sa-btn delete" style="padding:5px 10px;" onclick="alert('下架产品')" data-zh="下架" data-en="Remove">下架</button>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);">
+            <span style="font-size:32px;">🧋</span>
+            <div style="flex:1;">
+              <span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="多肉葡萄" data-en="Grape Cheese Tea">多肉葡萄</span>
+              <span style="display:block;font-size:11px;color:var(--text-hint);" data-zh="喜茶 · 水果茶" data-en="HEYTEA · Fruit Tea">喜茶 · 水果茶</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <span style="font-size:15px;font-weight:800;color:var(--primary);">¥22</span>
+                <span class="badge badge-success" data-zh="库存: 100" data-en="Stock: 100">库存: 100</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sa-btn edit" style="padding:5px 10px;" onclick="alert('编辑产品')" data-zh="编辑" data-en="Edit">编辑</button>
+              <button class="sa-btn delete" style="padding:5px 10px;" onclick="alert('下架产品')" data-zh="下架" data-en="Remove">下架</button>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);">
+            <span style="font-size:32px;">☕</span>
+            <div style="flex:1;">
+              <span style="display:block;font-size:14px;font-weight:700;color:var(--text-primary);" data-zh="拿铁" data-en="Latte">拿铁</span>
+              <span style="display:block;font-size:11px;color:var(--text-hint);" data-zh="星巴克 · 咖啡" data-en="Starbucks · Coffee">星巴克 · 咖啡</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <span style="font-size:15px;font-weight:800;color:var(--primary);">¥32</span>
+                <span class="badge badge-warning" data-zh="库存: 8" data-en="Stock: 8">库存: 8</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sa-btn edit" style="padding:5px 10px;" onclick="alert('编辑产品')" data-zh="编辑" data-en="Edit">编辑</button>
+              <button class="sa-btn delete" style="padding:5px 10px;" onclick="alert('下架产品')" data-zh="下架" data-en="Remove">下架</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ===== 管理员：数据统计 ===== -->
+    <div class="page" id="page-admin-stats">
+      <div class="admin-header">
+        <div class="admin-brand-row"><span class="admin-brand-icon">👑</span><div><span class="admin-brand-title" data-zh="数据统计" data-en="Statistics">数据统计</span><span class="admin-brand-sub">QueueGo Platform</span></div></div>
+      </div>
+      <div class="admin-tabs">
+        <div class="admin-tab" onclick="showPage('admin-shops')"><span>🏪</span><span data-zh="商家管理" data-en="Shops">商家管理</span></div>
+        <div class="admin-tab" onclick="showPage('admin-products')"><span>🛒</span><span data-zh="产品管理" data-en="Products">产品管理</span></div>
+        <div class="admin-tab active" onclick="showPage('admin-stats')"><span>📊</span><span data-zh="数据统计" data-en="Statistics">数据统计</span></div>
+      </div>
+      <div class="page-scroll">
+        <div class="kpi-grid">
+          <div class="kpi-card c1"><span class="kpi-icon">📦</span><span class="kpi-val">3,248</span><span class="kpi-lbl" data-zh="总订单数" data-en="Total Orders">总订单数</span><span class="kpi-change">↑12.5%</span></div>
+          <div class="kpi-card c2"><span class="kpi-icon">💰</span><span class="kpi-val">¥186K</span><span class="kpi-lbl" data-zh="平台流水" data-en="Revenue">平台流水</span><span class="kpi-change">↑18.2%</span></div>
+          <div class="kpi-card c3"><span class="kpi-icon">👥</span><span class="kpi-val">284</span><span class="kpi-lbl" data-zh="新增用户" data-en="New Users">新增用户</span><span class="kpi-change">↑8.6%</span></div>
+          <div class="kpi-card c4"><span class="kpi-icon">🚶</span><span class="kpi-val">4,120</span><span class="kpi-lbl" data-zh="排队总次数" data-en="Queue Count">排队总次数</span><span class="kpi-change">↓3.2%</span></div>
+        </div>
+        <div class="chart-card">
+          <span class="chart-title" data-zh="本周订单趋势" data-en="Weekly Order Trend">本周订单趋势</span>
+          <div class="bar-chart">
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:60%;"></div></div><span class="bar-lbl" data-zh="周一" data-en="Mon">周一</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:75%;"></div></div><span class="bar-lbl" data-zh="周二" data-en="Tue">周二</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:55%;"></div></div><span class="bar-lbl" data-zh="周三" data-en="Wed">周三</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:90%;"></div></div><span class="bar-lbl" data-zh="周四" data-en="Thu">周四</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:100%;"></div></div><span class="bar-lbl" data-zh="周五" data-en="Fri">周五</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:85%;"></div></div><span class="bar-lbl" data-zh="周六" data-en="Sat">周六</span></div>
+            <div class="bar-col"><div class="bar-wrap"><div class="bar-fill" style="height:70%;"></div></div><span class="bar-lbl" data-zh="周日" data-en="Sun">周日</span></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <span class="chart-title" data-zh="商家营收排行" data-en="Shop Revenue Ranking">商家营收排行</span>
+          <div class="rank-list">
+            <div class="rank-row"><div class="rank-num r1">1</div><span class="rank-emoji">🍔</span><div class="rank-info"><span class="rank-name" data-zh="麦当劳旗舰" data-en="McDonald's">麦当劳旗舰</span><div class="rank-bar-bg"><div class="rank-bar-fg" style="width:100%;"></div></div></div><span class="rank-rev">¥56K</span></div>
+            <div class="rank-row"><div class="rank-num r2">2</div><span class="rank-emoji">☕</span><div class="rank-info"><span class="rank-name" data-zh="星巴克旗舰" data-en="Starbucks">星巴克旗舰</span><div class="rank-bar-bg"><div class="rank-bar-fg" style="width:75%;"></div></div></div><span class="rank-rev">¥42K</span></div>
+            <div class="rank-row"><div class="rank-num r3">3</div><span class="rank-emoji">🍣</span><div class="rank-info"><span class="rank-name" data-zh="鮨さいとう" data-en="Saito Sushi">鮨さいとう</span><div class="rank-bar-bg"><div class="rank-bar-fg" style="width:68%;"></div></div></div><span class="rank-rev">¥38K</span></div>
+            <div class="rank-row"><div class="rank-num r4">4</div><span class="rank-emoji">🍜</span><div class="rank-info"><span class="rank-name" data-zh="外婆家" data-en="Waipojia">外婆家</span><div class="rank-bar-bg"><div class="rank-bar-fg" style="width:51%;"></div></div></div><span class="rank-rev">¥28K</span></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <span class="chart-title" data-zh="退款与爽约统计" data-en="Refund & No-show Stats">退款与爽约统计</span>
+          <div style="display:flex;gap:8px;">
+            <div style="flex:1;text-align:center;background:var(--bg-input);border-radius:10px;padding:12px 6px;"><span style="display:block;font-size:18px;font-weight:800;color:var(--text-primary);">48</span><span style="display:block;font-size:10px;color:var(--text-hint);" data-zh="退款申请" data-en="Refund Req.">退款申请</span></div>
+            <div style="flex:1;text-align:center;background:var(--bg-input);border-radius:10px;padding:12px 6px;"><span style="display:block;font-size:18px;font-weight:800;color:var(--success);">42</span><span style="display:block;font-size:10px;color:var(--text-hint);" data-zh="已批准" data-en="Approved">已批准</span></div>
+            <div style="flex:1;text-align:center;background:var(--bg-input);border-radius:10px;padding:12px 6px;"><span style="display:block;font-size:18px;font-weight:800;color:var(--warning);">15</span><span style="display:block;font-size:10px;color:var(--text-hint);" data-zh="爽约次数" data-en="No-shows">爽约次数</span></div>
+            <div style="flex:1;text-align:center;background:var(--bg-input);border-radius:10px;padding:12px 6px;"><span style="display:block;font-size:18px;font-weight:800;color:var(--error);">¥1.2K</span><span style="display:block;font-size:10px;color:var(--text-hint);" data-zh="违约金" data-en="Penalties">违约金</span></div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+  </div><!-- end phone-frame -->
+
+  <div class="demo-label" id="demoLabel">📱 QueueGo 演示 | 点击右侧控制台切换页面</div>
+
+  <script>
+  // ===== 全局状态 =====
+  let currentLang = 'zh';
+  let currentTheme = 'light';
+  let currentPage = 'login';
+
+  // ===== 初始化 =====
+  function init() {
+    updateTime();
+    setInterval(updateTime, 1000);
+    setInterval(updateQueueNumbers, 5000);
+    applyLang();
+  }
+
+  function updateTime() {
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2,'0');
+    const m = now.getMinutes().toString().padStart(2,'0');
+    document.getElementById('statusTime').textContent = h + ':' + m;
+  }
+
+  // ===== 页面切换 =====
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + pageId);
+    if (target) {
+      target.classList.add('active');
+      currentPage = pageId;
+      const label = document.getElementById('demoLabel');
+      const pageNames = {
+        login:'登录页', home:'用户首页', 'shop-detail':'商家详情',
+        'queue-status':'排队状态', 'my-orders':'我的订单', profile:'个人中心',
+        'pay-success':'支付成功', 'merchant-orders':'商家订单管理',
+        'merchant-queue':'商家排队管理', 'merchant-notify':'商家通知',
+        'admin-shops':'管理员商家管理', 'admin-products':'管理员产品管理',
+        'admin-stats':'管理员数据统计'
+      };
+      if (label) label.textContent = '📱 当前页面: ' + (pageNames[pageId] || pageId);
+    }
+  }
+
+  // ===== 登录 =====
+  function doLogin() {
+    const phone = document.getElementById('loginPhone').value;
+    const pwd = document.getElementById('loginPwd').value;
+    if (!phone || !pwd) {
+      alert(currentLang === 'zh' ? '请填写手机号和密码' : 'Please fill in phone and password');
+      return;
+    }
+    showPage('home');
+  }
+
+  function quickLogin(role) {
+    if (role === 'user') showPage('home');
+    else if (role === 'shop') showPage('merchant-orders');
+    else if (role === 'admin') showPage('admin-shops');
+  }
+
+  // ===== 主题切换 =====
+  function setTheme(theme) {
+    currentTheme = theme;
+    document.getElementById('phoneFrame').setAttribute('data-theme', theme);
+    document.querySelectorAll('[data-theme]').forEach(el => el.setAttribute('data-theme', theme));
+    document.getElementById('phoneFrame').style.setProperty('--applied', '1');
+    // 更新CSS变量到phone frame
+    const frame = document.getElementById('phoneFrame');
+    if (theme === 'dark') {
+      frame.style.background = '#0D0D0D';
+    } else {
+      frame.style.background = '#F5F5F5';
+    }
+    // 更新按钮状态
+    document.getElementById('btnLight').classList.toggle('active', theme === 'light');
+    document.getElementById('btnDark').classList.toggle('active', theme === 'dark');
+    document.getElementById('themeLight') && document.getElementById('themeLight').classList.toggle('active', theme === 'light');
+    document.getElementById('themeDark') && document.getElementById('themeDark').classList.toggle('active', theme === 'dark');
+    // 应用到所有页面
+    document.querySelectorAll('.page').forEach(p => {
+      if (theme === 'dark') {
+        p.style.cssText = '--bg-page:#0D0D0D;--bg-card:#1A1A1A;--bg-input:#252525;--navbar-bg:#1A1A1A;--text-primary:#F0F0F0;--text-secondary:#CCCCCC;--text-hint:#666666;--border:#2A2A2A;--border-input:#333333;--divider:#222222;';
+      } else {
+        p.style.cssText = '';
+      }
+    });
+    // 应用到phone frame本身
+    if (theme === 'dark') {
+      frame.style.cssText = 'width:375px;height:812px;background:#0D0D0D;border-radius:40px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 2px #333,inset 0 0 0 1px #555;position:relative;flex-shrink:0;transition:background 0.3s;';
+    } else {
+      frame.style.cssText = 'width:375px;height:812px;background:#F5F5F5;border-radius:40px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 2px #333,inset 0 0 0 1px #555;position:relative;flex-shrink:0;transition:background 0.3s;';
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === 'light' ? 'dark' : 'light');
+  }
+
+  // ===== 语言切换 =====
+  function setLang(lang) {
+    currentLang = lang;
+    applyLang();
+    // 更新控制台按钮
+    document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
+    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+    // 更新登录页语言按钮
+    const lzh = document.getElementById('loginLangZh');
+    const len = document.getElementById('loginLangEn');
+    if (lzh) { lzh.classList.toggle('active', lang === 'zh'); }
+    if (len) { len.classList.toggle('active', lang === 'en'); }
+    // 更新个人中心语言按钮
+    const plzh = document.getElementById('profileLangZh');
+    const plen = document.getElementById('profileLangEn');
+    if (plzh) {
+      if (lang === 'zh') { plzh.style.background='var(--primary)'; plzh.style.color='#fff'; plen.style.background=''; plen.style.color='var(--text-hint)'; }
+      else { plen.style.background='var(--primary)'; plen.style.color='#fff'; plzh.style.background=''; plzh.style.color='var(--text-hint)'; }
+    }
+  }
+
+  function toggleLang() {
+    setLang(currentLang === 'zh' ? 'en' : 'zh');
+  }
+
+  function applyLang() {
+    // 应用 data-zh / data-en 属性
+    document.querySelectorAll('[data-zh]').forEach(el => {
+      el.textContent = el.getAttribute('data-' + currentLang) || el.getAttribute('data-zh');
+    });
+    // 应用 placeholder
+    document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
+      el.placeholder = el.getAttribute('data-placeholder-' + currentLang) || el.getAttribute('data-placeholder-zh');
+    });
+    // 登录按钮文字
+    const loginBtn = document.querySelector('.login-btn');
+    if (loginBtn) loginBtn.textContent = currentLang === 'zh' ? '登录' : 'Login';
+  }
+
+  // ===== 数量控制 =====
+  function updateQty(btn, delta) {
+    const control = btn.parentElement;
+    const numEl = control.querySelector('.qty-num');
+    let qty = parseInt(numEl.textContent) + delta;
+    if (qty < 0) qty = 0;
+    numEl.textContent = qty;
+  }
+
+  // ===== 排队标签切换 =====
+  function switchQueueTab(type, el) {
+    document.querySelectorAll('.dual-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('queueListOnline').style.display = type === 'online' ? 'block' : 'none';
+    document.getElementById('queueListInstore').style.display = type === 'instore' ? 'block' : 'none';
+  }
+
+  // ===== 模拟排队号码实时更新 =====
+  function updateQueueNumbers() {
+    // 模拟排队数字小幅变化
+    const onlineChips = document.querySelectorAll('.queue-info-chip.online span:last-child');
+    onlineChips.forEach(el => {
+      const match = el.textContent.match(/\d+/);
+      if (match) {
+        const n = Math.max(1, parseInt(match[0]) + (Math.random() > 0.5 ? 1 : -1));
+        el.textContent = el.textContent.replace(/\d+/, n);
+      }
+    });
+  }
+
+  // ===== 启动 =====
+  init();
+  </script>
+</body>
+</html>

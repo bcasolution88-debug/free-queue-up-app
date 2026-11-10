@@ -1,0 +1,70 @@
+{
+  "bsonType": "object",
+  "required": ["name", "address"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "商家名称"
+    },
+    "logo": {
+      "bsonType": "string",
+      "description": "商家 Logo URL"
+    },
+    "address": {
+      "bsonType": "string",
+      "description": "商家地址"
+    },
+    "phone": {
+      "bsonType": "string",
+      "description": "商家电话"
+    },
+    "location": {
+      "bsonType": "object",
+      "properties": {
+        "type": {
+          "enum": ["Point"]
+        },
+        "coordinates": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "double"
+          }
+        }
+      },
+      "description": "地理位置 (GeoJSON)"
+    },
+    "rating": {
+      "bsonType": "double",
+      "description": "评分 (0-5)"
+    },
+    "status": {
+      "enum": ["open", "closed", "maintenance"],
+      "description": "营业状态"
+    },
+    "business_hours": {
+      "bsonType": "object",
+      "properties": {
+        "open_time": {
+          "bsonType": "string"
+        },
+        "close_time": {
+          "bsonType": "string"
+        }
+      },
+      "description": "营业时间"
+    },
+    "admin_id": {
+      "bsonType": "objectId",
+      "description": "商家管理员 ID"
+    },
+    "created_at": {
+      "bsonType": "date"
+    },
+    "updated_at": {
+      "bsonType": "date"
+    }
+  }
+}
